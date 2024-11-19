@@ -124,7 +124,18 @@ paralelosUnicos(paralelo(P,Q)):- buffersUsados(P, BP),  buffersUsados(Q, BQ), in
 
 % ejecucionSegura(XS, BS, CS) :- member(B, BS), member(C, CS), 
 
+ejecucionesSeguras(XS,Buffers,Contenidos):- desde(1,Len), generador(Buff,Valor,XS),
+                                            length(XS,Len),        
+                                            noLeeVacio(XS).
 
+generador(0,Buffers,Contenidos,[]).
+generador(Longitud,Buffers,Contenidos,[escribir(Buff,Valor)|L1]):- Longitud \= 0 member(Buffers,Buff), member(Contenidos,Valor),
+                                                          N is Longitud -1
+                                                          generador(Buffers,Contenidos,L1). 
+generador(Longitud,Buffers,Contenidos,[leer(Buff)|L1]):- member(Buffers,Buff), generador(Buffers,Contenidos,L1)
+generador(Longitud,Buffers,Contenidos,[computar|L1]):- generador(Buffers,Contenidos,L1).
+generador(Longitud,Buffers,Contenidos,Res):-                                                           
+%[1,2] [a,b]
 
 
 
