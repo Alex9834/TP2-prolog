@@ -165,20 +165,39 @@ desde(X, Y) :- N is X+1, desde(N, Y).
 
 % % Se espera que completen con las subsecciones de tests que crean necesarias, más allá de las puestas en estos ejemplos
 
-% cantidadTestsBasicos(2). % Actualizar con la cantidad de tests que entreguen
+% cantidadTestsBasicos(3). % Actualizar con la cantidad de tests que entreguen
 % testBasico(1) :- proceso(computar).
 % testBasico(2) :- proceso(secuencia(escribir(1,pepe),escribir(2,pipo))).
-% testBasico(3) :- buffersUsados(escribir(1, hola), [1]).
-% % Agregar más tests
+% testBasico(3) :- buffersUsados(paralelo(escribir(3, hola),secuencia(leer(1),escribir(2))), [3,1,2]).
 
-% cantidadTestsProcesos(0). % Actualizar con la cantidad de tests que entreguen
-% % Agregar más tests
 
-% cantidadTestsBuffers(0). % Actualizar con la cantidad de tests que entreguen
-% % Agregar más tests
+% cantidadTestsProcesos(4). % Actualizar con la cantidad de tests que entreguen
+% testBasico(1) :- intercalar([1,2,3],[4,5,6],[4,1,5,2,6,3]).
+% testBasico(2) :- not(intercalar([1,2,3],[4,5,6],[4,2,5,1,6,3])).
+% testBasico(3) :- serializar(paralelo(paralelo(leer(1),leer(2)),secuencia(leer(3),leer(4))),[leer(1),leer(3),leer(2),leer(4)]).
+% testBasico(4) :- serializar(paralelo(paralelo(leer(1),leer(2)),secuencia(leer(3),leer(4))),[leer(3),leer(1),leer(4),leer(2)]).
 
-% cantidadTestsSeguros(0). % Actualizar con la cantidad de tests que entreguen
-% % Agregar más tests
+
+% cantidadTestsBuffers(8). % Actualizar con la cantidad de tests que entreguen
+% testBasico(1) :- contenidoBuffer(1,[escribir(1,pa),escribir(2,ma),escribir(1,hola),computar,escribir(1,mundo),leer(1)],[hola, mundo]).
+% testBasico(2) :- contenidoBuffer(2,[escribir(1,pp),escribir(2,ala),escribir(1,ola),computar,escribir(1,mundo),leer(1)],[ala]).
+% testBasico(3) :- contenidoBuffer(2,paralelo(escribir(2,sol),secuencia(escribir(1,agua),leer(1))),[sol]).
+% testBasico(4) :- contenidoBuffer(1,paralelo(escribir(2,sol),secuencia(escribir(1,agua),leer(1))),[]).
+% testBasico(5) :- contenidoBuffer(1,paralelo(leer(1),escribir(1,agua)),[]).
+% testBasico(6) :- contenidoLeido(paralelo(secuencia(escribir(2,sol),leer(2)),secuencia(escribir(1,agua),leer(1))),[agua, sol]).
+% testBasico(7) :- not(contenidoLeido([escribir(1, agua), escribir(2, sol), leer(1), leer(1)],CS)).
+% testBasico(8) :- contenidoLeido(paralelo(secuencia(escribir(2,sol),secuencia(leer(2),escribir(2,agua))),secuencia(leer(2),computar)),[sol, agua]).
+
+% cantidadTestsSeguros(8). % Actualizar con la cantidad de tests que entreguen
+% testBasico(1) :- not(esSeguro(secuencia(leer(1),escribir(1,agua)))).
+% testBasico(2) :- not(esSeguro(paralelo(escribir(1,sol),secuencia(escribir(1,agua),leer(1))))).
+% testBasico(3) :- esSeguro(paralelo(escribir(2,sol),secuencia(escribir(1,agua),leer(1)))).
+% testBasico(4) :- ejecucionSegura([],[1,2],[a,b]).
+% testBasico(5) :- ejecucionSegura([computar, escribir(1, a)],[1,2],[a,b]).
+% testBasico(6) :- ejecucionSegura([escribir(1, a), leer(1)] ,[1,2],[a,b]).
+% testBasico(7) :- ejecucionSegura([escribir(1, a), escribir(2, a)] ,[1,2],[a,b]).
+% testBasico(8) :- ejecucionSegura([escribir(1, b), escribir(2, a)] ,[1,2],[a,b]).
+
 
 
 % tests(basico) :- cantidadTestsBasicos(M), forall(between(1,M,N), testBasico(N)).
